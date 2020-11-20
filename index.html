@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Home | Cocktailfinder</title>
+        <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/stylesheet.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <div id="root">
+            <h1>The official Cocktailfinder<br>of Simon (SnomStick)</h1> 
+            <!--Injecting Contents-->
+            <p id="name"></p>
+            <img src="" id="image"></img>
+            <p id="ingredients"></p>
+            <p id="instruction"></p>   
+            <!--DIVs for Animation-->
+            <div class="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+        </div> 
+        <p class="footer">
+            <a href="https://www.instagram.com/simonpanzitt/" class="fa fa-instagram"></a>
+        </p>
+        <!--Implementing Cocktail-Database API-->
+        <script src="src/api.js"></script>
+        <script>
+            var data = new OpenAPIRequest('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+            data.sendRequest().then(res => {
+                if(!res) {
+                    document.getElementById("name").innerHTML = "Could not load data. Try again later.";
+                    return console.log("Fetching data failed");
+                }
+                document.getElementById("name").innerHTML = res.drinks[0].strDrink;
+                document.getElementById("instruction").innerHTML = "Instruction: " + res.drinks[0].strInstructions;
+                document.getElementById("image").src = res.drinks[0].strDrinkThumb;
+                //Prepairing ingredients with an Array
+                let ingredients = [];
+                for(let i = 0; i < 10; i++) {
+                    let temp = res.drinks[0]["strIngredient"+i];
+                    if(temp != undefined && temp != null && temp!= "") {
+                        ingredients.push(temp);
+                    }
+                }
+                document.getElementById("ingredients").innerHTML = "Ingredients: " + ingredients.join(" - ");
+            });
+        </script>
+    </body>
+</html>
