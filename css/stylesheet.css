@@ -164,3 +164,10 @@ p.footer a {
 #center{
     width: auto;
 }
+
+#github{
+    font-size: 15px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
